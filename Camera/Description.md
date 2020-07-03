@@ -1,1 +1,6 @@
-Try ESP32-Cam
+Referrence:
+
+Install ESP32 for Arduino IDE: https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/
+
+Build CamaraWebServer: https://randomnerdtutorials.com/esp32-cam-video-streaming-face-recognition-arduino-ide/
+
