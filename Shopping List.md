@@ -4,6 +4,10 @@
 
 # Camera
 
+ESP32：
+
+fu至内容₴FGHU1xNLd90₴咑幵👉淘tao寳👈或點击炼接https://m.tb.cn/h.VKrRA1o?sm=973d9a 至瀏lan嘂..【【优信电子】ESP-32开发板WIFI+蓝牙 ESP-WROOM-32 ESP-32S】
+
 ESP32-Cam:
 
 幅治本段内容¢dg491xawhhn¢到👉τa0寳👈或点几链街https://m.tb.cn/h.VKUNOu1?sm=47c693 至瀏lan嘂..【ESP32-CAM开发板测试板WiFi+蓝牙模块ESP32串口转 带OV2640摄像头】
