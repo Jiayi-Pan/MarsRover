@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../../Arm/Robotic Arm"
+		},
+		{
+			"name": "Web Interface",
+			"path": "Web Interface"
+		},
+		{
+			"name": "SerialTest",
+			"path": "../../../../../Documents/PlatformIO/Projects/SerialTest"
+		},
+		{
+			"name": "a",
+			"path": "../../../../../Documents/PlatformIO/Projects/a"
+		}
+	],
+	"settings": {}
+}

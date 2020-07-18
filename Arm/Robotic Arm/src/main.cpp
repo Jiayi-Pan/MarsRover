@@ -1,17 +1,31 @@
+// Finger -> D2
+// Base ->D4
 #include <Arduino.h>
-
 #include <DNSServer.h>
 #include <ESPUI.h>
+#include <WiFi.h>
+#include <ESP32Servo.h>
+
+int fingerpin = 21;
+int basepin = 5;
+int pin1 = 18;
+int pin2 = 19;
+int pin3 = 4;
+int pin4 = 22;
 
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 1, 1);
 DNSServer dnsServer;
 
-#include <WiFi.h>
+void ledcAnalogWrite(uint8_t channel, uint32_t value, uint32_t valueMax = 180) {
+  // calculate duty, 8191 from 2 ^ 13 - 1
+  uint32_t duty = (8191 / valueMax) * min(value, valueMax);
+  ledcWrite(channel, duty);
+}
 
 
-const char *ssid = "2302";
-const char *password = "Panjiayiduanjunxiapanjiantun_20010311";
+const char *ssid = "iPhone";
+const char *password = "12345678";
 
 const char *hostname = "espui";
 
@@ -20,20 +34,55 @@ int graphId;
 int millisLabelId;
 int testSwitchId;
 
-void slider(Control *sender, int type) {
-  Serial.print("Slider: ID: ");
-  Serial.print(sender->id);
-  Serial.print(", Value: ");
-  Serial.println(sender->value);
-  // Like all Control Values in ESPUI slider values are Strings. To use them as int simply do this:
-  int sliderValueWithOffset = sender->value.toInt() + 1;
-  Serial.print("SliderValue with offset: ");
-  Serial.println(sliderValueWithOffset);
+
+void Finger(Control *sender, int type) { //Finger
+  // Servo
+  ledcAnalogWrite(1,sender->value.toInt());
+}
+void Base(Control *sender, int type) { //Finger
+  // Servo
+  ledcAnalogWrite(2,sender->value.toInt());
+}
+void Slider3(Control *sender, int type) { //Finger
+  // Servo
+  ledcAnalogWrite(3,sender->value.toInt());
+}
+void Slider4(Control *sender, int type) { //Finger
+  // Servo
+  ledcAnalogWrite(4,sender->value.toInt());
+}
+void Slider5(Control *sender, int type) { //Finger
+  // Servo
+  ledcAnalogWrite(5,sender->value.toInt());
+}
+void Slider6(Control *sender, int type) { //Finger
+  // Servo
+  ledcAnalogWrite(6,sender->value.toInt());
 }
 
 
+
 void setup(void) {
-  ESPUI.setVerbosity(Verbosity::VerboseJSON);
+	// Finger
+  ledcSetup(1,50,16); // channel, freq, resolution
+  ledcAttachPin(fingerpin,1); // pin, channel
+  // Base
+  ledcSetup(2,50,16); // channel, freq, resolution
+  ledcAttachPin(basepin,2); // pin, channel
+
+  ledcSetup(3,50,16); // channel, freq, resolution
+  ledcAttachPin(pin1,3); // pin, channel
+
+  ledcSetup(4,50,16); // channel, freq, resolution
+  ledcAttachPin(pin2,4); // pin, channel
+
+  ledcSetup(5,50,16); // channel, freq, resolution
+  ledcAttachPin(pin3,5); // pin, channel
+
+  ledcSetup(6,50,16); // channel, freq, resolution
+  ledcAttachPin(pin4,6); // pin, channel
+
+  // ESPUI.setVerbosity(Verbosity::VerboseJSON);
   Serial.begin(115200);
 
   WiFi.setHostname(hostname);
@@ -56,13 +105,13 @@ void setup(void) {
   Serial.print("IP address: ");
   Serial.println(WiFi.getMode() == WIFI_AP ? WiFi.softAPIP() : WiFi.localIP());
 
-  
-  ESPUI.slider("Slider one", &slider, ControlColor::Alizarin, 90,0,180);
-  ESPUI.slider("Slider two", &slider, ControlColor::Alizarin, 90,0,180);
-  ESPUI.slider("Slider three", &slider, ControlColor::Alizarin, 90,0,180);
-  ESPUI.slider("Slider four", &slider, ControlColor::Alizarin, 90,0,180);
-  ESPUI.slider("Slider five", &slider, ControlColor::Alizarin, 90,0,180);
-  ESPUI.slider("Slider six", &slider, ControlColor::Alizarin, 90,0,180);
+  ESPUI.slider("Finger", &Finger, ControlColor::Alizarin, 120,100,150);
+  ESPUI.slider("Base", &Base, ControlColor::Alizarin, 90,0,360);
+  ESPUI.slider("3", &Slider3, ControlColor::Alizarin, 90,0,180);
+  ESPUI.slider("4", &Slider4, ControlColor::Alizarin, 90,0,180);
+  ESPUI.slider("5", &Slider5, ControlColor::Alizarin, 90,0,180);
+  ESPUI.slider("6", &Slider6, ControlColor::Alizarin, 90,0,180);
+
 
   /*
    * .begin loads and serves all files from PROGMEM directly.
@@ -73,7 +122,7 @@ void setup(void) {
 
  
   // Enable this option if you want sliders to be continuous (update during move) and not discrete (update on stop)
-  // ESPUI.sliderContinuous = true;
+  //ESPUI.sliderContinuous = true;
 
   /*
    * Optionally you can use HTTP BasicAuth. Keep in mind that this is NOT a
