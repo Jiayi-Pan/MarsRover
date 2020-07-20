@@ -50,9 +50,9 @@ void setup() {
   Serial.begin(115200);
   // Ai-Thinker: pins 2 and 12
   ledcSetup(2, 50, 16); //channel, freq, resolution
-  ledcAttachPin(2, 2); // pin, channel
+  ledcAttachPin(14, 2); // pin, channel
   ledcSetup(4, 50, 16);
-  ledcAttachPin(12, 4);
+  ledcAttachPin(15, 4);
    
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
