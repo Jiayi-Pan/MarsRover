@@ -157,72 +157,41 @@ void magnetSwitch3(Control *sender, int value) {
 
 
 void Rotate(Control *sender, int type) {
-  Serial.print(ROTATE);
-  Serial.print("h");
-  Serial.print(sender->value);
-  Serial.print("h");
+  if (sender->value.toInt() <= 120){
+    Serial.println(5);
+  }else if (sender->value.toInt() >=240)
+  {
+    Serial.println(6);
+  }
+  
 }
 
 
 void Move(Control *sender, int value) {
   switch (value) {
-  case P_LEFT_DOWN:
-    Serial.print(LEFT);
-    Serial.print("h");
-    Serial.print(BEGIN);
-    Serial.print("h");
-    break;
-
-  case P_LEFT_UP:
-    Serial.print(LEFT);
-    Serial.print("h");
-    Serial.print(STOP); 
-    Serial.print("h");   
-    break;
-
-  case P_RIGHT_DOWN:
-    Serial.print(RIGHT);
-    Serial.print("h");
-    Serial.print(BEGIN);    
-    Serial.print("h");
-    break;
-
-  case P_RIGHT_UP:
-    Serial.print(RIGHT);
-    Serial.print("h");
-    Serial.print(STOP);    
-    Serial.print("h");
-    break;
-
   case P_FOR_DOWN:
-    Serial.print(UP);
-    Serial.print("h");
-    Serial.print(BEGIN);    
-    Serial.print("h");
-    break;
-
-  case P_FOR_UP:
-  Serial.print(UP);
-    Serial.print("h");
-    Serial.print(STOP);    
-    Serial.print("h");    
+    Serial.println(1);
     break;
 
   case P_BACK_DOWN:
-    Serial.print(DOWN);
-    Serial.print("h");
-    Serial.print(BEGIN);    
-    Serial.print("h");    
+    Serial.println(2); 
     break;
 
-  case P_BACK_UP:
-    Serial.print(DOWN);
-    Serial.print("h");
-    Serial.print(STOP);    
-    Serial.print("h");
+  case P_LEFT_DOWN:
+    Serial.println(3);
+    break;
+
+  case P_RIGHT_DOWN:
+    Serial.println(4);
+    break;
+
+  case P_CENTER_DOWN:
+    Serial.println(7);
     break;
   }
 }
+
+
 void Speed (Control *sender, int value){
   Serial.print(SPEED);
   Serial.print("h");
@@ -243,7 +212,8 @@ void setup(void) {
   WiFi.setHostname(hostname);
   // try to connect to existing network
   WiFi.begin(ssid, password);
-  Serial.print("\n\nTry to connect to existing network");
+
+  // Serial.print("\n\nTry to connect to existing network");
 
     // Wait for connection, 5s timeout
     do {
@@ -253,17 +223,19 @@ void setup(void) {
 
 
   dnsServer.start(DNS_PORT, "*", apIP);
-
+/*
   Serial.println("\n\nWiFi parameters:");
   Serial.print("Mode: ");
   Serial.println(WiFi.getMode() == WIFI_AP ? "Station" : "Client");
   Serial.print("IP address: ");
   Serial.println(WiFi.getMode() == WIFI_AP ? WiFi.softAPIP() : WiFi.localIP());
-
+*/
 
   // Web Controller begins
   ESPUI.slider("Rotate", &Rotate, ControlColor::Alizarin, 180,0,360);
-  ESPUI.pad("Move",&Move, ControlColor::Alizarin);
+  ESPUI.padWithCenter("Move",&Move, ControlColor::Alizarin);
+ 
+ /*
   ESPUI.slider("Speed", &Speed, ControlColor::Alizarin, 255,0,255);
   ESPUI.switcher("Model Switch1",&modelSwitch1,ControlColor::Turquoise);
   ESPUI.switcher("Model Switch2",&modelSwitch2,ControlColor::Turquoise);
@@ -271,8 +243,10 @@ void setup(void) {
   ESPUI.switcher("Magnet Switch1",&magnetSwitch1,ControlColor::Emerald);
   ESPUI.switcher("Magnet Switch2",&magnetSwitch2,ControlColor::Emerald);
   ESPUI.switcher("Magnet Switch3",&magnetSwitch3,ControlColor::Emerald);
+*/
 
-  
+
+
   /*
    * .begin loads and serves all files from PROGMEM directly.
    * If you want to serve the files from SPIFFS use ESPUI.beginSPIFFS
@@ -294,6 +268,8 @@ void setup(void) {
 
 
   ESPUI.begin("Car Central Controller");
+
+  //Serial.print(120);
 }
 
 void loop(void) {

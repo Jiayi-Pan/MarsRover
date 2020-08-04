@@ -122,8 +122,6 @@ void setup(void) {
 
  
   // Enable this option if you want sliders to be continuous (update during move) and not discrete (update on stop)
-  //ESPUI.sliderContinuous = true;
-
   /*
    * Optionally you can use HTTP BasicAuth. Keep in mind that this is NOT a
    * SECURE way of limiting access.
@@ -134,6 +132,15 @@ void setup(void) {
 
 
   ESPUI.begin("Robotic Arm Controller");
+
+    ledcAnalogWrite(1,100);
+    ledcAnalogWrite(2,90);
+    ledcAnalogWrite(3,90);
+    ledcAnalogWrite(4,90);
+    ledcAnalogWrite(5,90);
+    ledcAnalogWrite(6,90);
+
+
 }
 
 void loop(void) {

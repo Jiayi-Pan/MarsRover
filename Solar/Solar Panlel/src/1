@@ -1,0 +1,109 @@
+#include <Servo.h>
+
+static const int servoPin1 = 13;
+static const int servoPin2 = 12;
+static const int servoPin3 = 14;
+
+Servo servo1;
+Servo servo2;
+Servo servo3;
+
+int val=0;
+int val_former=0;
+int state=0;
+int pos=90;
+int ang=45;
+
+int angle[3]={0,0,0};
+
+
+void clos(void){  
+  servo1.write(0);// high
+  servo2.write(90);
+  servo3.write(90);
+  delay(20);}
+
+void ope(void){  
+  servo1.write(180);// high
+  servo2.write(0);
+  servo3.write(90);
+  delay(20);}
+
+void sunflower(void){
+  
+   val= analogRead(27);
+   if(state==0){val_former=val;state+=1;}
+
+  
+    if (state==1){
+    servo1.write(180);  
+    delay(1000);
+    servo2.write(45);
+    delay(1000);
+    servo3.write(pos);
+    delay(2000);
+    for (int an = 45; an >= 0; an --) { // 0°到180°
+      val= analogRead(27);
+      servo3.write(an);              
+        if(val-val_former>=100){
+          state+=1;
+          servo3.write(an);
+          Serial.println(val);
+          break;
+        }
+        else if(val_former>=val){
+          val_former=val;ang=an;
+       }
+   Serial.println(an);
+   delay(100);
+  }
+    }
+    if (state==2
+    ){
+    servo1.write(180);  
+    delay(100);
+    servo2.write(ang);
+    delay(100);
+    servo3.write(pos);
+    delay(200);
+    for (int an = ang; an <= 90; an ++) { // 0°到180°
+      val= analogRead(27);
+      servo3.write(an);              
+        if(val-val_former>=80){
+          state+=1;
+          servo3.write(an);
+          //Serial.println(666);
+          break;
+        }
+        else if(val_former>=val){
+          val_former=val;ang=an;
+       }
+   //Serial.println(pos);
+   delay(100);
+  }
+    }
+    else{
+      servo1.write(180);  
+      servo2.write(ang);
+      servo3.write(pos);
+    }
+    //Serial.println(state);
+  }
+   
+void setup() {
+    Serial.begin(115200);
+    servo1.attach(servoPin1);
+    servo2.attach(servoPin2);
+    servo3.attach(servoPin3);
+}
+
+void loop() {
+
+  //val= analogRead(servoPin1);
+  //Serial.println(val);
+  //ope();
+  //val= analogRead(27);
+  //Serial.println(val);
+  sunflower();
+  //Serial.println(state);
+}
